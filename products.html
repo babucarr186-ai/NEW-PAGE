@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - ShopZone</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/products.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h1><i class="fas fa-shopping-cart"></i> ShopZone</h1>
+                </div>
+                <nav class="nav">
+                    <ul class="nav-list">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html" class="active">Products</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="nav-actions">
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Search products...">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="cart-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count" id="cart-count">0</span>
+                    </div>
+                    <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span class="separator">/</span>
+                <span class="current">Products</span>
+            </nav>
+
+            <div class="products-layout">
+                <!-- Sidebar Filters -->
+                <aside class="filters-sidebar">
+                    <div class="filter-section">
+                        <h3>Categories</h3>
+                        <div class="filter-group">
+                            <label class="filter-option">
+                                <input type="checkbox" value="electronics" class="category-filter">
+                                <span class="checkmark"></span>
+                                Electronics
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="fashion" class="category-filter">
+                                <span class="checkmark"></span>
+                                Fashion
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="home" class="category-filter">
+                                <span class="checkmark"></span>
+                                Home & Garden
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="sports" class="category-filter">
+                                <span class="checkmark"></span>
+                                Sports
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="books" class="category-filter">
+                                <span class="checkmark"></span>
+                                Books
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Price Range</h3>
+                        <div class="price-range">
+                            <input type="range" id="price-min" min="0" max="1000" value="0" class="price-slider">
+                            <input type="range" id="price-max" min="0" max="1000" value="1000" class="price-slider">
+                            <div class="price-inputs">
+                                <input type="number" id="min-price-input" placeholder="Min" min="0" max="1000" value="0">
+                                <span>-</span>
+                                <input type="number" id="max-price-input" placeholder="Max" min="0" max="1000" value="1000">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Brand</h3>
+                        <div class="filter-group">
+                            <label class="filter-option">
+                                <input type="checkbox" value="apple" class="brand-filter">
+                                <span class="checkmark"></span>
+                                Apple
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="samsung" class="brand-filter">
+                                <span class="checkmark"></span>
+                                Samsung
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="nike" class="brand-filter">
+                                <span class="checkmark"></span>
+                                Nike
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="adidas" class="brand-filter">
+                                <span class="checkmark"></span>
+                                Adidas
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>Rating</h3>
+                        <div class="filter-group">
+                            <label class="filter-option">
+                                <input type="checkbox" value="5" class="rating-filter">
+                                <span class="checkmark"></span>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="4" class="rating-filter">
+                                <span class="checkmark"></span>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                & up
+                            </label>
+                            <label class="filter-option">
+                                <input type="checkbox" value="3" class="rating-filter">
+                                <span class="checkmark"></span>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                & up
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="clear-filters" id="clear-filters">Clear All Filters</button>
+                </aside>
+
+                <!-- Products Area -->
+                <div class="products-area">
+                    <!-- Toolbar -->
+                    <div class="products-toolbar">
+                        <div class="results-info">
+                            <span id="results-count">Showing 12 of 48 products</span>
+                        </div>
+                        <div class="toolbar-actions">
+                            <div class="sort-dropdown">
+                                <select id="sort-select">
+                                    <option value="default">Sort by</option>
+                                    <option value="name-asc">Name A-Z</option>
+                                    <option value="name-desc">Name Z-A</option>
+                                    <option value="price-asc">Price Low to High</option>
+                                    <option value="price-desc">Price High to Low</option>
+                                    <option value="rating-desc">Highest Rated</option>
+                                    <option value="newest">Newest First</option>
+                                </select>
+                            </div>
+                            <div class="view-toggle">
+                                <button class="view-btn active" data-view="grid">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <button class="view-btn" data-view="list">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                            <button class="filter-toggle mobile-only" id="filter-toggle">
+                                <i class="fas fa-filter"></i>
+                                Filters
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="products-container">
+                        <div class="products-grid" id="products-grid">
+                            <!-- Products will be loaded dynamically -->
+                        </div>
+                        <div class="loading" id="loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            Loading products...
+                        </div>
+                        <div class="no-results" id="no-results" style="display: none;">
+                            <i class="fas fa-search"></i>
+                            <h3>No products found</h3>
+                            <p>Try adjusting your filters or search terms</p>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination" id="pagination">
+                        <button class="page-btn prev-btn" id="prev-page">
+                            <i class="fas fa-chevron-left"></i>
+                            Previous
+                        </button>
+                        <div class="page-numbers" id="page-numbers">
+                            <!-- Page numbers will be generated dynamically -->
+                        </div>
+                        <button class="page-btn next-btn" id="next-page">
+                            Next
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Product Quick View Modal -->
+    <div class="modal-overlay" id="quick-view-overlay">
+        <div class="modal-content">
+            <button class="modal-close" id="close-quick-view">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="quick-view-content" id="quick-view-content">
+                <!-- Quick view content will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ShopZone</h3>
+                    <p>Your trusted online shopping destination</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Customer Service</h4>
+                    <ul>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Size Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-envelope"></i> info@shopzone.com</p>
+                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Shopping St, City, State 12345</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ShopZone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-cart" id="close-cart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be populated here -->
+        </div>
+        <div class="cart-total">
+            <div class="total-price">
+                <span>Total: $<span id="cart-total">0.00</span></span>
+            </div>
+            <button class="checkout-btn" onclick="window.location.href='checkout.html'">
+                Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
