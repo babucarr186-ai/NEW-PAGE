@@ -106,6 +106,108 @@ NEW-PAGE/
 
 For a better development experience, serve the files using a local server:
 
+## Monorepo Structure
+
+```
+NEW-PAGE/
+    admin.html, products.html, ... (static legacy pages)
+    mysite/        -> Vite + React frontend (Gallery UI consuming Sanity)
+    studio/        -> Sanity Studio (content editing UI)
+    .vscode/tasks.json -> Dev convenience tasks
+```
+
+## Sanity + Frontend Integration
+
+The React app (`mysite`) fetches documents of type `galleryItem` from the Sanity dataset and renders them in a responsive gallery. Adding or editing items in Studio reflects instantly (hot cache permitting) in the frontend—no code changes required.
+
+### Gallery Schema Fields
+| Field | Purpose |
+| ----- | ------- |
+| title | Display name under the image |
+| slug | (Optional) For future routing / deep links |
+| image | Main asset (uses hotspot) |
+| description | Short supporting copy |
+| alt | Accessibility / SEO alt text |
+| tags | Optional grouping / filtering later |
+| order | Manual ordering (lower first) |
+| published | Toggle visibility |
+
+## Environment Variables
+
+Create a `.env` file inside `mysite` (copy from `.env.example`):
+
+```
+VITE_SANITY_PROJECT_ID=yourProjectId
+VITE_SANITY_DATASET=production
+VITE_SANITY_API_VERSION=2025-01-01
+VITE_SANITY_USE_CDN=true
+```
+
+Values come from the Sanity manage project settings. Only the project ID usually changes.
+
+## Running Locally
+
+Prereqs: Node 18+ recommended.
+
+Option A (individual):
+```
+cd mysite
+npm install
+npm run dev
+
+# new terminal
+cd studio
+npm install
+npm run dev
+```
+
+Option B (VS Code tasks):
+Open the command palette -> Tasks: Run Task -> choose `dev:all` (auto defined in `.vscode/tasks.json`).
+
+Expected URLs:
+* Frontend: http://localhost:5173
+* Studio:   http://localhost:3333
+
+## Zero‑Code Content Updates
+1. Open Sanity Studio (http://localhost:3333 or deployed studio).
+2. Create / edit / reorder gallery items.
+3. Set `published = true` and optionally adjust `order`.
+4. The frontend auto-refreshes (Vite hot module reload). Hard-refresh if needed to invalidate the CDN.
+
+## Deployment Notes
+
+Front-end build (Vite):
+```
+cd mysite
+npm run build
+```
+Outputs to `mysite/dist/` (can be hosted on any static host or GitHub Pages subpath).
+
+Sanity Studio build:
+```
+cd studio
+npm run build
+```
+Generates a production bundle inside `studio/dist/` (can be deployed to Sanity hosted studio with `npm run deploy` if configured or any static hosting).
+
+## Future Enhancements (Backlog)
+* Add filtering UI by tag
+* Add lightbox / modal viewer
+* CI workflow for building both apps
+* Image lazy loading skeletons
+* Use GROQ vision plugin during dev
+
+## Troubleshooting
+| Issue | Fix |
+| ----- | ---- |
+| Empty gallery | Confirm at least one `galleryItem` is published and dataset matches `.env` |
+| 404 images | Check that the image asset is fully uploaded; retry publish |
+| Env vars ignored | Ensure file name is `.env` (not `.env.txt`) and restart `npm run dev` |
+| Wrong project | Update `VITE_SANITY_PROJECT_ID` and restart dev server |
+
+---
+This document now reflects the integrated React + Sanity gallery setup.
+
 ```bash
 # Using Python 3
 python -m http.server 8000

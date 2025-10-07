@@ -1,0 +1,40 @@
+{
+  // VS Code task configuration to run frontend (mysite) & Sanity Studio (studio)
+  // Use the Run Task command (Ctrl+Shift+P -> Tasks: Run Task) and pick the combo task
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "dev:frontend",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/mysite"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "dev:studio",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/studio"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "dev:all",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoLogo",
+        "-NoProfile",
+        "-Command",
+        // Start both tasks in parallel PowerShell jobs so both remain active
+        "Start-Job { cd '${workspaceFolder}/mysite'; npm run dev }; Start-Job { cd '${workspaceFolder}/studio'; npm run dev }; Write-Host 'Frontend: http://localhost:5173  |  Studio: http://localhost:3333'; Receive-Job -Wait -AutoRemoveJob *"
+      ],
+      "problemMatcher": [],
+      "dependsOn": ["dev:frontend", "dev:studio"],
+      "runOptions": {"runOn": "folderOpen"}
+    }
+  ]
+}
