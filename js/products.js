@@ -18,7 +18,18 @@ class ProductManager {
     }
 
     getProductsData() {
-        return [
+        // Try to load from localStorage first
+        const storedProducts = localStorage.getItem('ecommerce_products');
+        if (storedProducts) {
+            try {
+                return JSON.parse(storedProducts);
+            } catch (e) {
+                console.error('Error parsing stored products:', e);
+            }
+        }
+
+        // Default products if none stored
+        const defaultProducts = [
             {
                 id: '1',
                 name: 'Wireless Bluetooth Headphones',
@@ -34,6 +45,483 @@ class ProductManager {
                 inStock: true,
                 featured: true
             },
+            {
+                id: '2',
+                name: 'Smart Fitness Watch',
+                category: 'electronics',
+                brand: 'samsung',
+                price: 199.99,
+                oldPrice: null,
+                rating: 4.2,
+                reviewCount: 89,
+                description: 'Track your fitness goals with this advanced smartwatch.',
+                image: null,
+                features: ['Heart Rate Monitor', 'GPS', 'Waterproof'],
+                inStock: true,
+                featured: true
+            },
+            {
+                id: '3',
+                name: 'Professional Running Shoes',
+                category: 'sports',
+                brand: 'nike',
+                price: 129.99,
+                oldPrice: 149.99,
+                rating: 4.7,
+                reviewCount: 245,
+                description: 'Lightweight and comfortable running shoes for serious athletes.',
+                image: null,
+                features: ['Lightweight', 'Breathable', 'Cushioned'],
+                inStock: true,
+                featured: true
+            },
+            {
+                id: '4',
+                name: 'Organic Cotton T-Shirt',
+                category: 'fashion',
+                brand: 'nike',
+                price: 29.99,
+                oldPrice: null,
+                rating: 4.0,
+                reviewCount: 67,
+                description: 'Comfortable and eco-friendly t-shirt made from organic cotton.',
+                image: null,
+                features: ['Organic Cotton', 'Comfortable Fit', 'Eco-Friendly'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '5',
+                name: 'Smartphone with 5G',
+                category: 'electronics',
+                brand: 'samsung',
+                price: 799.99,
+                oldPrice: 899.99,
+                rating: 4.6,
+                reviewCount: 312,
+                description: 'Latest smartphone with 5G connectivity and advanced camera.',
+                image: null,
+                features: ['5G Ready', 'Advanced Camera', 'Fast Processor'],
+                inStock: true,
+                featured: true
+            },
+            {
+                id: '6',
+                name: 'Home Coffee Machine',
+                category: 'home',
+                brand: 'apple',
+                price: 299.99,
+                oldPrice: null,
+                rating: 4.3,
+                reviewCount: 156,
+                description: 'Professional-grade coffee machine for your home kitchen.',
+                image: null,
+                features: ['Multiple Brew Sizes', 'Programmable', 'Easy Clean'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '7',
+                name: 'Yoga Exercise Mat',
+                category: 'sports',
+                brand: 'adidas',
+                price: 49.99,
+                oldPrice: 69.99,
+                rating: 4.4,
+                reviewCount: 98,
+                description: 'Non-slip yoga mat perfect for all types of exercise.',
+                image: null,
+                features: ['Non-slip Surface', 'Easy to Clean', 'Portable'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '8',
+                name: 'Designer Backpack',
+                category: 'fashion',
+                brand: 'nike',
+                price: 89.99,
+                oldPrice: null,
+                rating: 4.1,
+                reviewCount: 78,
+                description: 'Stylish and functional backpack for work or travel.',
+                image: null,
+                features: ['Water Resistant', 'Multiple Compartments', 'Ergonomic'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '9',
+                name: 'Wireless Mouse',
+                category: 'electronics',
+                brand: 'apple',
+                price: 79.99,
+                oldPrice: null,
+                rating: 4.2,
+                reviewCount: 134,
+                description: 'Ergonomic wireless mouse with precision tracking.',
+                image: null,
+                features: ['Wireless', 'Ergonomic Design', 'Long Battery'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '10',
+                name: 'Indoor Plant Pot Set',
+                category: 'home',
+                brand: 'apple',
+                price: 39.99,
+                oldPrice: 49.99,
+                rating: 4.0,
+                reviewCount: 45,
+                description: 'Beautiful ceramic pots perfect for indoor plants.',
+                image: null,
+                features: ['Drainage Holes', 'Decorative Design', 'Set of 3'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '11',
+                name: 'Bluetooth Speaker',
+                category: 'electronics',
+                brand: 'samsung',
+                price: 149.99,
+                oldPrice: 179.99,
+                rating: 4.5,
+                reviewCount: 203,
+                description: 'Portable Bluetooth speaker with rich, clear sound.',
+                image: null,
+                features: ['Portable', 'Waterproof', 'Long Battery Life'],
+                inStock: true,
+                featured: true
+            },
+            {
+                id: '12',
+                name: 'Casual Denim Jeans',
+                category: 'fashion',
+                brand: 'nike',
+                price: 79.99,
+                oldPrice: null,
+                rating: 3.9,
+                reviewCount: 89,
+                description: 'Classic denim jeans with comfortable fit.',
+                image: null,
+                features: ['Comfortable Fit', 'Durable Material', 'Classic Style'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '13',
+                name: 'Gaming Mechanical Keyboard',
+                category: 'electronics',
+                brand: 'apple',
+                price: 159.99,
+                oldPrice: 199.99,
+                rating: 4.7,
+                reviewCount: 167,
+                description: 'Professional gaming keyboard with mechanical switches.',
+                image: null,
+                features: ['Mechanical Switches', 'RGB Lighting', 'Programmable'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '14',
+                name: 'Resistance Band Set',
+                category: 'sports',
+                brand: 'adidas',
+                price: 24.99,
+                oldPrice: null,
+                rating: 4.3,
+                reviewCount: 112,
+                description: 'Complete resistance band set for strength training.',
+                image: null,
+                features: ['Multiple Resistance Levels', 'Portable', 'Exercise Guide'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '15',
+                name: 'Scented Candle Collection',
+                category: 'home',
+                brand: 'apple',
+                price: 59.99,
+                oldPrice: 79.99,
+                rating: 4.2,
+                reviewCount: 73,
+                description: 'Luxury scented candles to create the perfect ambiance.',
+                image: null,
+                features: ['Natural Wax', 'Long Burn Time', 'Premium Scents'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '16',
+                name: 'Leather Wallet',
+                category: 'fashion',
+                brand: 'nike',
+                price: 49.99,
+                oldPrice: null,
+                rating: 4.1,
+                reviewCount: 56,
+                description: 'Premium leather wallet with RFID blocking technology.',
+                image: null,
+                features: ['Genuine Leather', 'RFID Blocking', 'Multiple Slots'],
+                inStock: true,
+                featured: false
+            }
+        ];
+
+        // Save default products to localStorage
+        this.saveProductsToStorage(defaultProducts);
+        return defaultProducts;
+    }
+            {
+                id: '1',
+                name: 'Wireless Bluetooth Headphones',
+                category: 'electronics',
+                brand: 'apple',
+                price: 299.99,
+                oldPrice: 399.99,
+                rating: 4.5,
+                reviewCount: 128,
+                description: 'Premium wireless headphones with noise cancellation and superior sound quality.',
+                image: null,
+                features: ['Noise Cancellation', 'Wireless', 'Long Battery Life'],
+                inStock: true,
+                featured: true
+            },
+            {
+                id: '2',
+                name: 'Smart Fitness Watch',
+                category: 'electronics',
+                brand: 'samsung',
+                price: 199.99,
+                oldPrice: null,
+                rating: 4.2,
+                reviewCount: 89,
+                description: 'Track your fitness goals with this advanced smartwatch.',
+                image: null,
+                features: ['Heart Rate Monitor', 'GPS', 'Waterproof'],
+                inStock: true,
+                featured: true
+            },
+            {
+                id: '3',
+                name: 'Professional Running Shoes',
+                category: 'sports',
+                brand: 'nike',
+                price: 129.99,
+                oldPrice: 149.99,
+                rating: 4.7,
+                reviewCount: 245,
+                description: 'Lightweight and comfortable running shoes for serious athletes.',
+                image: null,
+                features: ['Lightweight', 'Breathable', 'Cushioned'],
+                inStock: true,
+                featured: true
+            },
+            {
+                id: '4',
+                name: 'Organic Cotton T-Shirt',
+                category: 'fashion',
+                brand: 'nike',
+                price: 29.99,
+                oldPrice: null,
+                rating: 4.0,
+                reviewCount: 67,
+                description: 'Comfortable and eco-friendly t-shirt made from organic cotton.',
+                image: null,
+                features: ['Organic Cotton', 'Comfortable Fit', 'Eco-Friendly'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '5',
+                name: 'Smartphone with 5G',
+                category: 'electronics',
+                brand: 'samsung',
+                price: 799.99,
+                oldPrice: 899.99,
+                rating: 4.6,
+                reviewCount: 312,
+                description: 'Latest smartphone with 5G connectivity and advanced camera.',
+                image: null,
+                features: ['5G Ready', 'Advanced Camera', 'Fast Processor'],
+                inStock: true,
+                featured: true
+            },
+            {
+                id: '6',
+                name: 'Home Coffee Machine',
+                category: 'home',
+                brand: 'apple',
+                price: 299.99,
+                oldPrice: null,
+                rating: 4.3,
+                reviewCount: 156,
+                description: 'Professional-grade coffee machine for your home kitchen.',
+                image: null,
+                features: ['Multiple Brew Sizes', 'Programmable', 'Easy Clean'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '7',
+                name: 'Yoga Exercise Mat',
+                category: 'sports',
+                brand: 'adidas',
+                price: 49.99,
+                oldPrice: 69.99,
+                rating: 4.4,
+                reviewCount: 98,
+                description: 'Non-slip yoga mat perfect for all types of exercise.',
+                image: null,
+                features: ['Non-slip Surface', 'Easy to Clean', 'Portable'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '8',
+                name: 'Designer Backpack',
+                category: 'fashion',
+                brand: 'nike',
+                price: 89.99,
+                oldPrice: null,
+                rating: 4.1,
+                reviewCount: 78,
+                description: 'Stylish and functional backpack for work or travel.',
+                image: null,
+                features: ['Water Resistant', 'Multiple Compartments', 'Ergonomic'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '9',
+                name: 'Wireless Mouse',
+                category: 'electronics',
+                brand: 'apple',
+                price: 79.99,
+                oldPrice: null,
+                rating: 4.2,
+                reviewCount: 134,
+                description: 'Ergonomic wireless mouse with precision tracking.',
+                image: null,
+                features: ['Wireless', 'Ergonomic Design', 'Long Battery'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '10',
+                name: 'Indoor Plant Pot Set',
+                category: 'home',
+                brand: 'apple',
+                price: 39.99,
+                oldPrice: 49.99,
+                rating: 4.0,
+                reviewCount: 45,
+                description: 'Beautiful ceramic pots perfect for indoor plants.',
+                image: null,
+                features: ['Drainage Holes', 'Decorative Design', 'Set of 3'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '11',
+                name: 'Bluetooth Speaker',
+                category: 'electronics',
+                brand: 'samsung',
+                price: 149.99,
+                oldPrice: 179.99,
+                rating: 4.5,
+                reviewCount: 203,
+                description: 'Portable Bluetooth speaker with rich, clear sound.',
+                image: null,
+                features: ['Portable', 'Waterproof', 'Long Battery Life'],
+                inStock: true,
+                featured: true
+            },
+            {
+                id: '12',
+                name: 'Casual Denim Jeans',
+                category: 'fashion',
+                brand: 'nike',
+                price: 79.99,
+                oldPrice: null,
+                rating: 3.9,
+                reviewCount: 89,
+                description: 'Classic denim jeans with comfortable fit.',
+                image: null,
+                features: ['Comfortable Fit', 'Durable Material', 'Classic Style'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '13',
+                name: 'Gaming Mechanical Keyboard',
+                category: 'electronics',
+                brand: 'apple',
+                price: 159.99,
+                oldPrice: 199.99,
+                rating: 4.7,
+                reviewCount: 167,
+                description: 'Professional gaming keyboard with mechanical switches.',
+                image: null,
+                features: ['Mechanical Switches', 'RGB Lighting', 'Programmable'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '14',
+                name: 'Resistance Band Set',
+                category: 'sports',
+                brand: 'adidas',
+                price: 24.99,
+                oldPrice: null,
+                rating: 4.3,
+                reviewCount: 112,
+                description: 'Complete resistance band set for strength training.',
+                image: null,
+                features: ['Multiple Resistance Levels', 'Portable', 'Exercise Guide'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '15',
+                name: 'Scented Candle Collection',
+                category: 'home',
+                brand: 'apple',
+                price: 59.99,
+                oldPrice: 79.99,
+                rating: 4.2,
+                reviewCount: 73,
+                description: 'Luxury scented candles to create the perfect ambiance.',
+                image: null,
+                features: ['Natural Wax', 'Long Burn Time', 'Premium Scents'],
+                inStock: true,
+                featured: false
+            },
+            {
+                id: '16',
+                name: 'Leather Wallet',
+                category: 'fashion',
+                brand: 'nike',
+                price: 49.99,
+                oldPrice: null,
+                rating: 4.1,
+                reviewCount: 56,
+                description: 'Premium leather wallet with RFID blocking technology.',
+                image: null,
+                features: ['Genuine Leather', 'RFID Blocking', 'Multiple Slots'],
+                inStock: true,
+                featured: false
+            }
+        ];
+
+        // Save default products to localStorage
+        this.saveProductsToStorage(defaultProducts);
+        return defaultProducts;
+    }
             {
                 id: '2',
                 name: 'Smart Fitness Watch',
@@ -501,7 +989,61 @@ class ProductManager {
             itemsPerPage: this.itemsPerPage
         };
     }
-}
+
+    saveProductsToStorage(products) {
+        try {
+            localStorage.setItem('ecommerce_products', JSON.stringify(products));
+        } catch (e) {
+            console.error('Error saving products to localStorage:', e);
+        }
+    }
+
+    addProduct(product) {
+        // Generate new ID
+        const maxId = Math.max(...this.products.map(p => parseInt(p.id)), 0);
+        product.id = (maxId + 1).toString();
+
+        // Add timestamps
+        product.createdAt = new Date().toISOString();
+        product.updatedAt = new Date().toISOString();
+
+        // Add to products array
+        this.products.push(product);
+
+        // Save to localStorage
+        this.saveProductsToStorage(this.products);
+
+        // Reapply filters to include new product
+        this.applyFilters();
+
+        return product;
+    }
+
+    updateProduct(id, updates) {
+        const productIndex = this.products.findIndex(p => p.id === id);
+        if (productIndex !== -1) {
+            this.products[productIndex] = {
+                ...this.products[productIndex],
+                ...updates,
+                updatedAt: new Date().toISOString()
+            };
+            this.saveProductsToStorage(this.products);
+            this.applyFilters();
+            return this.products[productIndex];
+        }
+        return null;
+    }
+
+    deleteProduct(id) {
+        const productIndex = this.products.findIndex(p => p.id === id);
+        if (productIndex !== -1) {
+            const deletedProduct = this.products.splice(productIndex, 1)[0];
+            this.saveProductsToStorage(this.products);
+            this.applyFilters();
+            return deletedProduct;
+        }
+        return null;
+    }
 
 // Initialize product manager
 window.productManager = new ProductManager();
