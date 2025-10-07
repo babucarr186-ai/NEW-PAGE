@@ -396,7 +396,10 @@ class CheckoutManager {
                 <div class="item-details">
                     <div class="item-name">${item.name}</div>
                     <div class="item-quantity">Qty: ${item.quantity}</div>
-                    <div class="item-price">$${(item.price * item.quantity).toFixed(2)}</div>
+                    <div class="item-price">${new Intl.NumberFormat('en-GM', {
+                        style: 'currency',
+                        currency: 'GMD'
+                    }).format(item.price * item.quantity)}</div>
                 </div>
             </div>
         `).join('');
@@ -423,16 +426,24 @@ class CheckoutManager {
         const total = subtotal + shipping + tax - discount;
 
         // Update UI
-        document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
-        document.getElementById('shipping-cost').textContent = shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`;
-        document.getElementById('tax-amount').textContent = `$${tax.toFixed(2)}`;
-        document.getElementById('total-amount').textContent = `$${total.toFixed(2)}`;
+        const formatGMD = (amount) => new Intl.NumberFormat('en-GM', {
+            style: 'currency',
+            currency: 'GMD'
+        }).format(amount);
+        
+        document.getElementById('subtotal').textContent = formatGMD(subtotal);
+        document.getElementById('shipping-cost').textContent = shipping === 0 ? 'Free' : formatGMD(shipping);
+        document.getElementById('tax-amount').textContent = formatGMD(tax);
+        document.getElementById('total-amount').textContent = formatGMD(total);
 
         // Show/hide discount row
         const discountRow = document.getElementById('discount-row');
         if (discount > 0) {
             discountRow.style.display = 'flex';
-            document.getElementById('discount-amount').textContent = `-$${discount.toFixed(2)}`;
+            document.getElementById('discount-amount').textContent = `-${new Intl.NumberFormat('en-GM', {
+                style: 'currency',
+                currency: 'GMD'
+            }).format(discount)}`;
         } else {
             discountRow.style.display = 'none';
         }

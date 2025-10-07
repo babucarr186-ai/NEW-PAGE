@@ -305,8 +305,14 @@ class ProductManager {
                     </div>
                     <p>${product.description}</p>
                     <div class="product-price">
-                        <span class="price">$${product.price.toFixed(2)}</span>
-                        ${product.oldPrice ? `<span class="old-price">$${product.oldPrice.toFixed(2)}</span>` : ''}
+                        <span class="price">${new Intl.NumberFormat('en-GM', {
+                            style: 'currency',
+                            currency: 'GMD'
+                        }).format(product.price)}</span>
+                        ${product.oldPrice ? `<span class="old-price">${new Intl.NumberFormat('en-GM', {
+                            style: 'currency',
+                            currency: 'GMD'
+                        }).format(product.oldPrice)}</span>` : ''}
                     </div>
                     <div class="product-actions">
                         <button class="add-to-cart ${!product.inStock ? 'disabled' : ''}" 

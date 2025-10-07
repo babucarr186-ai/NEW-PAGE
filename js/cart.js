@@ -197,7 +197,10 @@ class ShoppingCart {
                 </div>
                 <div class="cart-item-info">
                     <h4>${item.name}</h4>
-                    <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                    <div class="cart-item-price">${new Intl.NumberFormat('en-GM', {
+                        style: 'currency',
+                        currency: 'GMD'
+                    }).format(item.price)}</div>
                     <div class="cart-item-controls">
                         <button class="quantity-btn" onclick="cart.updateQuantity('${item.id}', ${item.quantity - 1})">
                             <i class="fas fa-minus"></i>
@@ -218,7 +221,10 @@ class ShoppingCart {
     updateCartTotal() {
         const cartTotal = document.getElementById('cart-total');
         if (cartTotal) {
-            cartTotal.textContent = this.getCartTotal().toFixed(2);
+            cartTotal.textContent = new Intl.NumberFormat('en-GM', {
+                style: 'currency',
+                currency: 'GMD'
+            }).format(this.getCartTotal());
         }
     }
 
