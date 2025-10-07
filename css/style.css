@@ -2128,3 +2128,49 @@ a:focus {
         opacity: 0;
     }
 }
+
+.hero-contact {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    align-items: center;
+    z-index: 2;
+    position: relative;
+}
+
+.hero-contact a {
+    color: var(--text-white);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(220, 38, 38, 0.3);
+}
+
+.hero-contact a i {
+    font-size: 1.1rem;
+}
+
+.hero-contact a:hover {
+    background: rgba(220, 38, 38, 0.8);
+    border-color: rgba(220, 38, 38, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+}
+
+@media (max-width: 768px) {
+    .hero-contact {
+        gap: 0.75rem;
+    }
+
+    .hero-contact a {
+        width: 100%;
+        justify-content: center;
+    }
+}
