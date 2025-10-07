@@ -14,6 +14,8 @@ class ShopZoneApp {
         this.setupMobileMenu();
         this.setupScrollEffects();
         this.setupNewsletterForm();
+        this.setupLogoAnimations();
+        this.setupHeroTitleAnimation();
     }
 
     bindGlobalEvents() {
@@ -110,7 +112,7 @@ class ShopZoneApp {
         }
     }
 
-    performSearch(query) {
+    performSearch(query = '') {
         if (!window.productManager) return;
 
         window.productManager.updateFilters({ search: query });
@@ -489,6 +491,145 @@ class ShopZoneApp {
         }, 1500);
     }
 
+    setupLogoAnimations() {
+        const logoElement = document.querySelector('.animated-text');
+        if (!logoElement) return;
+
+        // Split text into individual letters
+        const text = logoElement.textContent;
+        logoElement.innerHTML = '';
+
+        // Create spans for each letter
+        text.split('').forEach((letter, index) => {
+            const span = document.createElement('span');
+            span.textContent = letter === ' ' ? '\u00A0' : letter; // Use non-breaking space for spaces
+            span.style.display = 'inline-block';
+            span.style.animationDelay = `${index * 0.1}s`;
+            logoElement.appendChild(span);
+        });
+
+        // Add scroll-based shaking
+        let lastScrollY = window.scrollY;
+        let shakeTimeout;
+
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            const scrollDifference = Math.abs(currentScrollY - lastScrollY);
+
+            // Trigger shake if scrolling significantly
+            if (scrollDifference > 10) {
+                logoElement.style.animation = 'shakeOnScroll 0.5s ease-in-out';
+
+                // Reset animation after it completes
+                clearTimeout(shakeTimeout);
+                shakeTimeout = setTimeout(() => {
+                    logoElement.style.animation = 'gradientShift 3s ease-in-out infinite';
+                }, 500);
+            }
+
+            lastScrollY = currentScrollY;
+        });
+
+        // Add hover effect
+        logoElement.addEventListener('mouseenter', () => {
+            logoElement.style.animation = 'shakeOnScroll 0.3s ease-in-out infinite, gradientShift 2s ease-in-out infinite';
+        });
+
+        logoElement.addEventListener('mouseleave', () => {
+            logoElement.style.animation = 'gradientShift 3s ease-in-out infinite';
+        });
+    }
+
+    setupHeroTitleAnimation() {
+        const heroTitle = document.getElementById('hero-title');
+        if (!heroTitle) return;
+
+        // Split text into individual letters
+        const text = heroTitle.textContent;
+        heroTitle.innerHTML = '';
+
+        // Create spans for each letter with matrix effect
+        text.split('').forEach((letter, index) => {
+            const span = document.createElement('span');
+            span.textContent = letter === ' ' ? '\u00A0' : letter; // Use non-breaking space for spaces
+            span.style.display = 'inline-block';
+            span.style.position = 'relative';
+
+            // Add matrix-style animation
+            span.style.animation = `matrixFall 2.5s ease-out forwards`;
+            span.style.animationDelay = `${index * 0.15 + 0.5}s`; // Start after logo animation
+
+            // Add glow effect
+            span.style.textShadow = '0 0 10px rgba(220, 38, 38, 0.8), 0 0 20px rgba(220, 38, 38, 0.4)';
+            span.style.color = '#dc2626';
+
+            heroTitle.appendChild(span);
+        });
+
+        // Add continuous matrix rain effect
+        this.createMatrixRain();
+    }
+
+    createMatrixRain() {
+        const heroSection = document.querySelector('.hero');
+        if (!heroSection) return;
+
+        // Create matrix rain container
+        const rainContainer = document.createElement('div');
+        rainContainer.className = 'matrix-rain';
+        rainContainer.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        `;
+
+        heroSection.style.position = 'relative';
+        heroSection.appendChild(rainContainer);
+
+        // Create falling characters
+        const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        for (let i = 0; i < 50; i++) {
+            setTimeout(() => {
+                this.createFallingChar(rainContainer, characters);
+            }, i * 100);
+        }
+
+        // Continuously create new falling characters
+        setInterval(() => {
+            this.createFallingChar(rainContainer, characters);
+        }, 200);
+    }
+
+    createFallingChar(container, characters) {
+        const char = document.createElement('div');
+        char.textContent = characters[Math.floor(Math.random() * characters.length)];
+        char.style.cssText = `
+            position: absolute;
+            color: #dc2626;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            opacity: 0.7;
+            text-shadow: 0 0 5px rgba(220, 38, 38, 0.5);
+            animation: fallDown ${2 + Math.random() * 3}s linear forwards;
+            left: ${Math.random() * 100}%;
+            top: -20px;
+        `;
+
+        container.appendChild(char);
+
+        // Remove after animation
+        setTimeout(() => {
+            char.remove();
+        }, 5000);
+    }
+
     initQuickView() {
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('quick-view-btn') || 
@@ -652,176 +793,4 @@ class ShopZoneApp {
                     if (entry.isIntersecting) {
                         const img = entry.target;
                         if (img.dataset.src) {
-                            img.src = img.dataset.src;
-                            img.classList.remove('lazy');
-                            imageObserver.unobserve(img);
-                        }
-                    }
-                });
-            });
-
-            document.querySelectorAll('img[data-src]').forEach(img => {
-                imageObserver.observe(img);
-            });
-        }
-    }
-
-    initSmoothScrolling() {
-        document.querySelectorAll('a[href^="#"]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = document.querySelector(link.getAttribute('href'));
-                
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    }
-
-    handleResize() {
-        // Handle responsive changes
-        if (this.isMobile) {
-            // Close any open desktop-only menus
-            const nav = document.querySelector('.nav');
-            if (nav) {
-                nav.classList.remove('mobile-open');
-            }
-        }
-    }
-
-    handleScroll() {
-        // Throttled scroll handling
-        if (!this.scrollTimeout) {
-            this.scrollTimeout = setTimeout(() => {
-                // Add scroll-based animations or effects here
-                this.scrollTimeout = null;
-            }, 16); // 60fps
-        }
-    }
-
-    handleOutsideClick(e) {
-        // Close mobile menu when clicking outside
-        const nav = document.querySelector('.nav');
-        const mobileToggle = document.getElementById('mobile-menu-toggle');
-        
-        if (nav && nav.classList.contains('mobile-open') && 
-            !nav.contains(e.target) && !mobileToggle.contains(e.target)) {
-            nav.classList.remove('mobile-open');
-            const icon = mobileToggle.querySelector('i');
-            if (icon) icon.className = 'fas fa-bars';
-        }
-
-        // Close filters sidebar on mobile
-        const filtersSidebar = document.querySelector('.filters-sidebar');
-        const filterToggle = document.getElementById('filter-toggle');
-        
-        if (filtersSidebar && filtersSidebar.classList.contains('open') && 
-            !filtersSidebar.contains(e.target) && 
-            (!filterToggle || !filterToggle.contains(e.target))) {
-            filtersSidebar.classList.remove('open');
-            document.body.style.overflow = '';
-        }
-    }
-
-    handleKeyboard(e) {
-        // Escape key handlers
-        if (e.key === 'Escape') {
-            // Close quick view
-            const quickViewOverlay = document.getElementById('quick-view-overlay');
-            if (quickViewOverlay && quickViewOverlay.classList.contains('active')) {
-                this.closeQuickView();
-                return;
-            }
-
-            // Close mobile menu
-            const nav = document.querySelector('.nav');
-            if (nav && nav.classList.contains('mobile-open')) {
-                nav.classList.remove('mobile-open');
-                const mobileToggle = document.getElementById('mobile-menu-toggle');
-                const icon = mobileToggle?.querySelector('i');
-                if (icon) icon.className = 'fas fa-bars';
-                return;
-            }
-        }
-
-        // Search shortcut (Ctrl+K or Cmd+K)
-        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-            e.preventDefault();
-            const searchInput = document.getElementById('search-input');
-            if (searchInput) {
-                searchInput.focus();
-            }
-        }
-    }
-
-    validateEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
-    showNotification(message, type = 'info') {
-        // Remove existing notifications
-        const existingNotification = document.querySelector('.app-notification');
-        if (existingNotification) {
-            existingNotification.remove();
-        }
-
-        // Create notification
-        const notification = document.createElement('div');
-        notification.className = `app-notification ${type}`;
-        notification.innerHTML = `
-            <div class="notification-content">
-                <i class="fas fa-${type === 'success' ? 'check-circle' : 
-                                    type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
-                <span>${message}</span>
-            </div>
-        `;
-
-        // Add styles
-        notification.style.cssText = `
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: ${type === 'success' ? 'var(--accent-color)' : 
-                         type === 'error' ? '#ef4444' : 'var(--primary-color)'};
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-lg);
-            z-index: 3000;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-        `;
-
-        document.body.appendChild(notification);
-
-        // Show notification
-        setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-        }, 100);
-
-        // Hide notification
-        setTimeout(() => {
-            notification.style.transform = 'translateX(100%)';
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 300);
-        }, 4000);
-    }
-}
-
-// Initialize app when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    window.app = new ShopZoneApp();
-});
-
-// Export for use in other files
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ShopZoneApp;
-}
+                         

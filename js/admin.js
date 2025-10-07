@@ -36,6 +36,19 @@ class AdminManager {
             this.saveProduct();
         });
 
+        // Image upload functionality
+        document.getElementById('uploadImageBtn').addEventListener('click', () => {
+            document.getElementById('productImageFile').click();
+        });
+
+        document.getElementById('productImageFile').addEventListener('change', (e) => {
+            this.handleImageUpload(e.target.files[0]);
+        });
+
+        document.getElementById('removeImageBtn').addEventListener('click', () => {
+            this.removeImage();
+        });
+
         // Close modal when clicking outside
         document.getElementById('productModal').addEventListener('click', (e) => {
             if (e.target.id === 'productModal') {
@@ -120,6 +133,10 @@ class AdminManager {
         document.getElementById('productDescription').value = product.description;
         document.getElementById('productFeatures').value = product.features ? product.features.join(', ') : '';
         document.getElementById('productImage').value = product.image || '';
+        if (product.image) {
+            this.showImagePreview(product.image);
+        }
+
         document.getElementById('productInStock').checked = product.inStock;
         document.getElementById('productFeatured').checked = product.featured;
 
@@ -180,6 +197,45 @@ class AdminManager {
         document.getElementById('productModal').style.display = 'none';
         document.getElementById('productForm').reset();
         this.currentEditingProduct = null;
+        this.removeImage(); // Clear image preview
+    }
+
+    handleImageUpload(file) {
+        if (!file) return;
+
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            this.showMessage('Please select a valid image file.', 'error');
+            return;
+        }
+
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            this.showMessage('Image file size must be less than 5MB.', 'error');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const imageUrl = e.target.result;
+            document.getElementById('productImage').value = imageUrl;
+            this.showImagePreview(imageUrl);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    showImagePreview(imageUrl) {
+        const preview = document.getElementById('imagePreview');
+        const previewImg = document.getElementById('previewImg');
+
+        previewImg.src = imageUrl;
+        preview.style.display = 'block';
+    }
+
+    removeImage() {
+        document.getElementById('productImage').value = '';
+        document.getElementById('productImageFile').value = '';
+        document.getElementById('imagePreview').style.display = 'none';
     }
 
     showMessage(message, type = 'info') {
